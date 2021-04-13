@@ -1,7 +1,8 @@
 import numpy as np
 import gym
 
-from scipy.misc import imresize as resize
+# from scipy.misc import imresize as resize
+from PIL import Image
 from gym.spaces.box import Box
 from gym.envs.box2d.car_racing import CarRacing
 
@@ -9,9 +10,12 @@ SCREEN_X = 64
 SCREEN_Y = 64
 
 def _process_frame(frame):
-  obs = frame[0:84, :, :].astype(np.float)/255.0
-  obs = resize(obs, (64, 64))
-  obs = ((1.0 - obs) * 255).round().astype(np.uint8)
+  obs = frame[0.84,:,:]
+  obs = Image.fromarray(obs,mode='RGB').resize((64,64))
+  obs = np.array(obs)
+  #obs = frame[0:84, :, :].astype(np.float)/255.0
+  #obs = resize(obs, (64, 64))
+  #obs = ((1.0 - obs) * 255).round().astype(np.uint8)
   return obs
 
 class CarRacingWrapper(CarRacing):
